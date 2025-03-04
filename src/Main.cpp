@@ -4,7 +4,6 @@
 #include <string>
 #include "employee.h"
 
-// Main: Coordinates the execution of Creator and Reporter utilities.
 
 // Function to print the contents of the binary file to the console.
 void printBinaryFile(const std::string& fileName) {
@@ -37,7 +36,6 @@ int main() {
     std::string binFileName;
     int recordCount = 0;
 
-    // Get binary file name and record count from user.
     std::cout << "Binary file name: ";
     std::cin >> binFileName;
     std::cout << "Number of records: ";
@@ -58,32 +56,26 @@ int main() {
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 
-    // Print the contents of the binary file to the console.
     printBinaryFile(binFileName);
 
     std::string reportFileName;
     double hourlyRate = 0;
 
-    // Get report file name and hourly rate from user.
     std::cout << "Report file name: ";
     std::cin >> reportFileName;
     std::cout << "Hourly rate: ";
     std::cin >> hourlyRate;
 
-    // Build the command to execute Reporter.exe with required parameters.
     std::string reporterCmd = "Reporter.exe " + binFileName + " " + reportFileName + " " + std::to_string(hourlyRate);
 
-    // Launch the Reporter process to generate the text report.
     if (!CreateProcess(NULL, const_cast<char*>(reporterCmd.c_str()), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
         std::cerr << "Failed to start Reporter process. Error: " << GetLastError() << std::endl;
         return 1;
     }
-    // Wait for the Reporter process to finish.
     WaitForSingleObject(pi.hProcess, INFINITE);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 
-    // Print the generated report to the console.
     printReport(reportFileName);
     return 0;
 }
