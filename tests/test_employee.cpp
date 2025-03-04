@@ -46,7 +46,7 @@ TEST(EmployeeTest, ExceedMaxHoursThrows) {
 // Test: employee number must be positive.
 TEST(EmployeeTest, InvalidEmployeeNumberThrows) {
     employee emp;
-    emp.num = 0;  // Invalid: non-positive
+    emp.num = 0;
     std::strcpy(emp.name, "Dave");
     emp.hours = 40.0;
     EXPECT_THROW(validateEmployee(emp), std::invalid_argument);
@@ -65,7 +65,6 @@ TEST(EmployeeTest, EmptyNameThrows) {
 TEST(EmployeeTest, NameNotNullTerminatedThrows) {
     employee emp;
     emp.num = 5;
-    // Fill the name buffer without a null terminator.
     for (int i = 0; i < 10; i++) {
         emp.name[i] = 'A';
     }
@@ -74,11 +73,9 @@ TEST(EmployeeTest, NameNotNullTerminatedThrows) {
 }
 
 // Test: name that is too long (i.e. no space for null terminator) should throw.
-// Note: This case is similar to "NameNotNullTerminatedThrows" because our buffer is fixed at 10.
 TEST(EmployeeTest, NameTooLongThrows) {
     employee emp;
     emp.num = 6;
-    // Fill buffer with 10 characters (no room for null terminator)
     for (int i = 0; i < 10; i++) {
         emp.name[i] = 'B';
     }
@@ -91,7 +88,6 @@ TEST(EmployeeTest, NameWithNonPrintableCharacterThrows) {
     employee emp;
     emp.num = 7;
     std::strcpy(emp.name, "John");
-    // Insert a non-printable character (newline) into the name.
     emp.name[2] = '\n';
     emp.hours = 40.0;
     EXPECT_THROW(validateEmployee(emp), std::invalid_argument);
